@@ -5,6 +5,8 @@
     font-size: 16px;
     --main-color: mediumaquamarine;
     --main-dark-color: darkblue;
+    --error-red: rgb(216, 14, 14);
+    --yellow-orange: rgb(206, 137, 9);
 }
 
 /* Nav bar styling */
@@ -61,6 +63,10 @@
     height: 250px;
 }
 
+.book.has-read {
+    box-shadow: 0 0 10px var(--main-color);
+}
+
 .book>* {
     justify-self: center;
     text-align: center;
@@ -77,6 +83,32 @@
     font-size: 1.2em;
     font-style: italic;
     margin-bottom: 30px;
+}
+
+.book .btn {
+    width: 80px;
+    padding: 10px 5px;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-weight: 600;
+}
+
+.book .btn.delete {
+    background-color: var(--error-red);
+}
+
+.book .btn.has-read {
+    background-color: var(--main-color);
+}
+
+.book .btn.not-read {
+    background-color: var(--yellow-orange);
+}
+
+.book .btn:hover {
+    opacity: 0.8;
+    transform: scale(0.97);
 }
 
 /* New book popup */

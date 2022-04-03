@@ -1,53 +1,80 @@
-let myLibrary = [
-    {
-        title: 'Harry Potter',
-        author: 'JK Rowling',
-        pages: 299,
-        read: true
-    },
-    {
-        title: 'Lord of the Rings',
-        author: 'Tolkien',
-        pages: 500,
-        read: false
-    }
-]
+let myLibrary = []
 
-function Book(title, author, pages, read) {
+function Book(index, title, author, pages, read) {
     this.title = title
     this.author = author
     this.pages = pages
     this.read = read
 }
 
-const addBookToLibrary = book => {
-    myLibrary.push(book)
-}
+const addBookToLibrary = book => myLibrary.push(book)
 
 const listBooks = () => {
     clearBooks()
     const list = document.querySelector('.book-list')
-    for (let book of myLibrary) {
+    for (let i = 0; i < myLibrary.length; i++) {
+        let book = myLibrary[i]
         const card = document.createElement('div')
         card.classList.add('book')
+        card.setAttribute('id', i)
+
         const title = document.createElement('h2')
         title.classList.add('title')
         title.innerText = book.title
         card.appendChild(title)
+
         const author = document.createElement('h4')
         author.classList.add('author')
         author.innerText = book.author
         card.appendChild(author)
+
         const pages = document.createElement('p')
         pages.classList.add('pages')
         pages.innerText = `${book.pages} pages`
         card.appendChild(pages)
-        const read = document.createElement('p')
-        read.classList.add('read')
-        read.innerText = book.read ? 'Read' : 'Not read'
-        card.appendChild(read)
+
+        const buttons = document.createElement('div')
+        buttons.classList.add('buttons')
+
+        const readButton = document.createElement('button')
+        readButton.classList.add('btn')
+        readButton.classList.add('read')
+        if (book.read) {
+            readButton.classList.add('has-read')
+        } else {
+            readButton.classList.add('not-read')
+        }
+        readButton.innerText = book.read ? 'Read' : 'Not read'
+        readButton.setAttribute('id', i)
+        buttons.appendChild(readButton)
+
+        const deleteButton = document.createElement('button')
+        deleteButton.classList.add('btn')
+        deleteButton.classList.add('delete')
+        deleteButton.innerText = 'Delete'
+        deleteButton.setAttribute('id', i)
+        buttons.appendChild(deleteButton)
+
+        if (book.read) {
+            card.classList.add('has-read')
+        } else {
+            card.classList.add('not-read')
+        }
+        card.append(buttons)
         list.append(card)
+        deleteButton.addEventListener('click', function() {handleDelete(this.id)})
+        readButton.addEventListener('click', function() {handleReadButton(this.id)})
     }
+}
+
+const handleDelete = id => {
+    myLibrary.splice(id, 1)
+    listBooks()
+}
+
+const handleReadButton = id => {
+    myLibrary[id].read = !myLibrary[id].read
+    listBooks()
 }
 
 clearBooks = () => {
